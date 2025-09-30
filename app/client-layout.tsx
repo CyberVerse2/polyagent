@@ -12,6 +12,7 @@ import { usePrivy, useWallets, useFundWallet } from "@privy-io/react-auth"; // R
 import { base } from "viem/chains"; // Import Base chain configuration
 import { EnrichedTokenBalance } from './token-list'; // Import the correct type
 import { useAccount } from 'wagmi'
+import { ConnectionIndicator } from '@/components/ui/connection-indicator'
 
 // Create a ref to hold the SidebarTabs component
 const sidebarRef = React.createRef<{ refreshBalances: () => void }>();
@@ -137,21 +138,21 @@ const Sidebar = forwardRef<{ refreshBalances: () => void }, {}>(function Sidebar
     <aside className="w-72 bg-white rounded-2xl p-4 flex flex-col justify-between border-2 border-black" style={{ boxShadow: "8px 8px 0px 0px #000000" }}>
       <div>
         {/* Profile/Wallet Section */}
-        <div className="flex items-center gap-3 mb-8">
+        <div className="flex items-center gap-3 mb-2">
           <div className="w-12 h-12 rounded-full bg-gradient-to-br from-yellow to-orange border-2 border-black flex items-center justify-center">
             <Wallet className="w-6 h-6 text-black" />
           </div>
-          <div>
-            <div className="flex items-center gap-1.5">
+          <div className="flex-1">
+            <div className="flex items-center gap-2">
               <span className="font-bold">{
                 !ready ? 'Loading...' : 
                 isWalletEffectivelyConnected ? 'Wallet Connected' : 'Connect Wallet'
               }</span>
               {ready && (
-                <div className={`h-2 w-2 rounded-full ${isWalletEffectivelyConnected ? 'bg-green-500' : 'bg-red-500'}`}></div>
+                <ConnectionIndicator connected={isWalletEffectivelyConnected} />
               )}
             </div>
-            {displayAddress && ( // Display address if connected via Privy
+            {displayAddress && (
               <div className="flex items-center gap-1">
                 <div className="text-sm text-muted-foreground truncate" title={displayAddress}>
                   {shortenAddress(displayAddress)}
