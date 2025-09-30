@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { cn } from '@/lib/utils';
 import { ArrowRightLeft, Wallet, BarChart2, Clock } from 'lucide-react';
+import { EmptyState } from '@/components/ui/empty-state'
 
 interface Activity {
   type: 'swap' | 'balance' | 'liquidity' | 'other';
@@ -75,6 +76,10 @@ export default function ActivityList({ walletAddress, refreshTrigger }: Activity
         return 'bg-gray-400';
     }
   };
+
+  if (!activities || activities.length === 0) {
+    return <EmptyState title="No recent activity" description={walletAddress ? 'Your recent onchain actions will appear here.' : 'Connect a wallet to see your activity.'} />
+  }
 
   return (
     <div className="space-y-3">

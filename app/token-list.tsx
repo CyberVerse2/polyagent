@@ -6,6 +6,7 @@ import React from 'react';
 import Image from 'next/image';
 import { Skeleton } from "@/components/ui/skeleton"; 
 import type { NativeBalance } from "./api/native-balances/route"; 
+import { EmptyState } from '@/components/ui/empty-state'
  
 export interface EnrichedTokenBalance {
   network: string; 
@@ -83,12 +84,12 @@ const TokenList: React.FC<TokenListProps> = React.memo(({ tokens = [], isLoading
   }
 
   if (!tokens || tokens.length === 0) {
-    return <p className="text-sm text-muted-foreground text-center py-4">No token assets found in wallet.</p>;
+    return <EmptyState title="No token assets found in wallet" description="Connect a wallet or switch networks to see balances." />;
   }
 
   // Display message if all balances are small and filtered out
   if (!showSmallBalances && filteredTokens.length === 0 && tokens.length > 0) {
-    return <p className="text-sm text-muted-foreground text-center py-4">Only small balances found. Click "Show More" to view them.</p>;
+    return <EmptyState title="Only small balances found" description="Click 'Show Small Balances' to view them." />;
   }
 
   return (
