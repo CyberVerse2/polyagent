@@ -13,6 +13,9 @@ NEXT_PUBLIC_PRIVY_APP_SECRET=your_privy_app_secret
 PRIVY_CHAIN_ID=8453 # Base mainnet
 ANTHROPIC_API_KEY=your_anthropic_api_key
 
+# Reown AppKit
+NEXT_PUBLIC_PROJECT_ID=your_reown_project_id
+
 # New Supabase variables
 NEXT_PUBLIC_SUPABASE_URL=your_supabase_project_url
 NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
