@@ -7,6 +7,7 @@ import Image from 'next/image';
 import { Skeleton } from "@/components/ui/skeleton"; 
 import type { NativeBalance } from "./api/native-balances/route"; 
 import { EmptyState } from '@/components/ui/empty-state'
+import { formatUsd } from '@/lib/format'
  
 export interface EnrichedTokenBalance {
   network: string; 
@@ -145,11 +146,7 @@ const TokenList: React.FC<TokenListProps> = React.memo(({ tokens = [], isLoading
                 {formatApproximateValue(item.formattedBalance)}
               </div>
               {/* Display USD Value */}
-              {typeof item.usdValue === 'number' ? (
-                <div className="text-xs text-muted-foreground">${item.usdValue.toFixed(2)}</div>
-              ) : (
-                <div className="text-xs text-muted-foreground">-</div> // Show dash if no USD value
-              )}
+              <div className="text-xs text-muted-foreground">{formatUsd(item.usdValue)}</div>
             </div>
           </div>
         </div>
