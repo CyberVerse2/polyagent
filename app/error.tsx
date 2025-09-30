@@ -2,6 +2,7 @@
 
 import { useEffect } from 'react'
 import { Button } from '@/components/ui/button' // Assuming Button component path
+import { ErrorBanner } from '@/components/ui/error-banner'
 
 export default function Error({
   error,
@@ -17,8 +18,7 @@ export default function Error({
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen p-4 text-center">
-      <h2 className="text-2xl font-bold mb-4">Something went wrong!</h2>
-      <p className="mb-4 text-red-600">{error.message || "An unexpected error occurred."}</p>
+      <ErrorBanner title="Something went wrong" message={error.message || 'An unexpected error occurred.'} />
       <Button
         onClick={() => reset()} // Attempt to recover by re-rendering the segment
         variant="destructive"

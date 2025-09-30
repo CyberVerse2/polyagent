@@ -1,6 +1,6 @@
 # Textwallet
 
-![text wallet](</public/home.png>)
+![text wallet](/public/home.png)
 TextWallet is a modular network of interoperable DeFi agents designed to bring the full functionality of EVM-compatible crypto wallets (and more) to a text-based interface. Interact with DeFi protocols, manage assets, conduct research, and get portfolio insights, all through text commands.
 
 ## Features
@@ -56,15 +56,15 @@ NEXT_PUBLIC_PROJECT_ID=your_reown_project_id
 
 You can obtain the Project ID from the Reown Dashboard (`https://dashboard.reown.com`). Without this value, the Web3Modal will not initialize.
 
-   **Note:** If you encounter peer dependency conflicts, particularly related to `date-fns` and `react-day-picker`, you might need to use the `--legacy-peer-deps` flag:
+**Note:** If you encounter peer dependency conflicts, particularly related to `date-fns` and `react-day-picker`, you might need to use the `--legacy-peer-deps` flag:
 
-   ```bash
-   npm install --legacy-peer-deps
-   # or
-   yarn install --legacy-peer-deps
-   # or
-   pnpm install --legacy-peer-deps
-   ```
+```bash
+npm install --legacy-peer-deps
+# or
+yarn install --legacy-peer-deps
+# or
+pnpm install --legacy-peer-deps
+```
 
 ### Health Endpoint
 
