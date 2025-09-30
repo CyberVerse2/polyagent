@@ -12,6 +12,10 @@ export const metadata = {
 export default function Layout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
+      <head>
+        <link rel="manifest" href="/site.webmanifest" />
+        <meta name="theme-color" content="#000000" />
+      </head>
       <body>
         <Providers>
           <ClientLayout>{children}</ClientLayout>
