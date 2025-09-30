@@ -10,6 +10,7 @@ import { usePrivy } from '@privy-io/react-auth';
 import ReactMarkdown from 'react-markdown';
 import remarkGfm from 'remark-gfm';
 import rehypeHighlight from 'rehype-highlight';
+import { Spinner } from '@/components/ui/spinner'
 
 interface ChatInterfaceProps {
 }
@@ -179,7 +180,10 @@ const ChatInterface: React.FC<ChatInterfaceProps> = () => {
                     <Bot className="w-5 h-5 text-black" />
                 </div>
                 <div className="max-w-[70%] p-3 rounded-lg border-2 border-black bg-white" style={{ boxShadow: "4px 4px 0px 0px #000000" }}>
-                    <p className="text-sm animate-pulse">Thinking...</p> 
+                    <div className="flex items-center gap-2">
+                      <Spinner size={14} />
+                      <p className="text-sm">Thinking...</p>
+                    </div>
                 </div>
             </div>
           )}
@@ -224,7 +228,7 @@ const ChatInterface: React.FC<ChatInterfaceProps> = () => {
             className="absolute right-2 top-2 bg-yellow hover:bg-yellow/90 text-black border-2 border-black rounded-xl h-9 w-9 p-0 flex items-center justify-center"
             style={{ boxShadow: "2px 2px 0px 0px #000000" }}
           >
-            <ArrowUp className="h-5 w-5" />
+            {isLoading ? <Spinner size={12} /> : <ArrowUp className="h-5 w-5" />}
           </Button>
         </form>
       </div>
