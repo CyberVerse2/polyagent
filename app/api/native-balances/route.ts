@@ -2,13 +2,14 @@ import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { Alchemy, Network, Utils } from "alchemy-sdk";
 import { NATIVE_NETWORKS } from '@/lib/networks'
+import { fetchWithRetry } from '@/lib/fetch-retry'
 
 // Helper function to fetch ETH price from Diadata
 async function getEthPrice(): Promise<number | null> {
   const url = 'https://api.diadata.org/v1/assetQuotation/Ethereum/0x0000000000000000000000000000000000000000';
   try {
     // Fetch fresh price, disable caching for server-side route
-    const response = await fetch(url, { cache: 'no-store' }); 
+    const response = await fetchWithRetry(url, { cache: 'no-store' }); 
     if (!response.ok) {
       throw new Error(`Diadata API error! status: ${response.status}`);
     }
