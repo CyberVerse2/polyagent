@@ -8,7 +8,8 @@ import { Skeleton } from '@/components/ui/skeleton';
 import type { NativeBalance } from './api/native-balances/route';
 import { EmptyState } from '@/components/ui/empty-state';
 import { formatUsd } from '@/lib/format';
-
+import { TOKEN_DEFAULT_ICON } from '@/lib/constants'
+ 
 export interface EnrichedTokenBalance {
   network: string;
   contractAddress: string | null; // Allow null for native type check
@@ -22,13 +23,13 @@ export interface EnrichedTokenBalance {
   usdValue?: number | null; // Calculated USD value for the balance held
   isNative?: false; // Explicitly mark ERC20 as not native
 }
-
+ 
 export type DisplayBalance = EnrichedTokenBalance | NativeBalance;
-
+ 
 export function isNativeBalance(item: DisplayBalance): item is NativeBalance {
   return item.isNative === true;
 }
-
+ 
 interface TokenListProps {
   tokens?: DisplayBalance[];
   isLoading?: boolean;
@@ -43,7 +44,7 @@ const isSmallBalance = (token: DisplayBalance): boolean => {
   if (typeof token.usdValue === 'number' && token.usdValue < 0.1) {
     return true;
   }
-
+  
   // For tokens without USD value, check the formatted balance
   // This is a simple heuristic - you may want to adjust based on token type
   const balance = parseFloat(token.formattedBalance || '0');
@@ -51,7 +52,7 @@ const isSmallBalance = (token: DisplayBalance): boolean => {
     // For native tokens (ETH), less than 0.001 is small
     return balance < 0.001;
   }
-
+  
   // For other tokens, less than 1 is small
   return balance < 1;
 };
@@ -129,7 +130,7 @@ const TokenList: React.FC<TokenListProps> = React.memo(
                 {/* Ensure flex item can shrink */}
                 {/* Display Logo using Next/Image if available, otherwise show placeholder */}
                 <Image
-                  src={item.logo || '/token-default.svg'}
+                  src={item.logo || TOKEN_DEFAULT_ICON}
                   // Use network name for native ETH alt text
                   alt={
                     isNativeBalance(item)
@@ -142,7 +143,7 @@ const TokenList: React.FC<TokenListProps> = React.memo(
                   unoptimized // Necessary for external, dynamic URLs without config
                   onError={(e) => {
                     // Optional: Hide image or show fallback on error
-                    e.currentTarget.setAttribute('src', '/token-default.svg');
+                    e.currentTarget.setAttribute('src', TOKEN_DEFAULT_ICON);
                   }}
                 />
                 <div className="overflow-hidden">
@@ -183,7 +184,7 @@ const TokenList: React.FC<TokenListProps> = React.memo(
     );
   }
 );
-
+ 
 TokenList.displayName = 'TokenList';
-
+ 
 export default TokenList;

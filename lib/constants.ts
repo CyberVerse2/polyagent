@@ -1,0 +1,1 @@
+export const TOKEN_DEFAULT_ICON = '/token-default.svg'
