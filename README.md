@@ -66,6 +66,16 @@ You can obtain the Project ID from the Reown Dashboard (`https://dashboard.reown
    pnpm install --legacy-peer-deps
    ```
 
+### Health Endpoint
+
+A simple health check route is available at `/api/health`.
+
+```bash
+curl -s http://localhost:3000/api/health
+```
+
+Returns a JSON payload with `{ status: 'ok', uptime: <seconds> }`.
+
 ### Running the Development Server
 
 Start the development server:
