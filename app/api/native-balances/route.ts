@@ -1,6 +1,7 @@
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 import { Alchemy, Network, Utils } from "alchemy-sdk";
+import { NATIVE_NETWORKS } from '@/lib/networks'
 
 // Helper function to fetch ETH price from Diadata
 async function getEthPrice(): Promise<number | null> {
@@ -36,16 +37,6 @@ export interface NativeBalance {
     isNative: true;         
 }
 
-// Define the networks to query
-const networks = [
-  { name: 'Ethereum', network: Network.ETH_MAINNET, logo: 'https://token.metaswap.codefi.network/assets/networkLogos/ethereum.svg' }, 
-  { name: 'Optimism', network: Network.OPT_MAINNET, logo: 'https://token.metaswap.codefi.network/assets/networkLogos/optimism.svg' },
-  { name: 'Arbitrum One', network: Network.ARB_MAINNET, logo: 'https://token.metaswap.codefi.network/assets/networkLogos/arbitrum.svg' },
-  { name: 'Polygon PoS', network: Network.MATIC_MAINNET, logo: 'https://token.metaswap.codefi.network/assets/networkLogos/polygon.svg' },
-  { name: 'Base', network: Network.BASE_MAINNET, logo: 'https://token.metaswap.codefi.network/assets/networkLogos/base.svg' },
-  { name: 'Zora', network: Network.ZORA_MAINNET, logo: 'https://token.metaswap.codefi.network/assets/networkLogos/zora.svg' }, 
-];
-
 export async function GET(request: NextRequest) {
   const { searchParams } = new URL(request.url);
   const address = searchParams.get('address');
@@ -70,7 +61,7 @@ export async function GET(request: NextRequest) {
   const balances: NativeBalance[] = [];
   const promises = [];
 
-  for (const net of networks) {
+  for (const net of NATIVE_NETWORKS) {
     const settings = {
       apiKey: apiKey,
       network: net.network,
@@ -88,12 +79,12 @@ export async function GET(request: NextRequest) {
             const balanceInEth = Utils.formatEther(balanceInWei);
             balances.push({
               contractAddress: null,
-              symbol: 'ETH',
-              name: 'Ethereum', // Keep name consistent for ETH
+              symbol: net.symbol,
+              name: net.name, // Keep name consistent by network entry
               logo: net.logo || null,
               balance: balanceInEth,
-              formattedBalance: balanceInEth, // Use raw ETH value
-              usdValue: null, // Not calculated in this version
+              formattedBalance: balanceInEth, // Use raw value
+              usdValue: null, // Calculated later
               networkName: net.name,
               isNative: true,
             });
