@@ -23,6 +23,10 @@ const nextConfig = {
       'token.metaswap.codefi.network', // For token logos
       'avatars.githubusercontent.com',
       'raw.githubusercontent.com',
+      'static.reown.com', // AppKit assets
+      'cloudflare-ipfs.com', // IPFS gateway
+      'ipfs.io', // IPFS gateway
+      'repository-images.githubusercontent.com',
     ],
     unoptimized: true // For handling dynamic image URLs
   }
