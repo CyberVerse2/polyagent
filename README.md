@@ -46,6 +46,16 @@ Follow these instructions to set up and run the project locally.
    pnpm install
    ```
 
+### Reown AppKit Setup
+
+Set your Reown Project ID in the environment:
+
+```
+NEXT_PUBLIC_PROJECT_ID=your_reown_project_id
+```
+
+You can obtain the Project ID from the Reown Dashboard (`https://dashboard.reown.com`). Without this value, the Web3Modal will not initialize.
+
    **Note:** If you encounter peer dependency conflicts, particularly related to `date-fns` and `react-day-picker`, you might need to use the `--legacy-peer-deps` flag:
 
    ```bash

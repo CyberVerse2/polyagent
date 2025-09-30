@@ -11,6 +11,7 @@ import { shortenAddress } from "@/lib/utils"; // Import shortenAddress at the to
 import { usePrivy, useWallets, useFundWallet } from "@privy-io/react-auth"; // Remove delegation hook
 import { base } from "viem/chains"; // Import Base chain configuration
 import { EnrichedTokenBalance } from './token-list'; // Import the correct type
+import { useAccount } from 'wagmi'
 
 // Create a ref to hold the SidebarTabs component
 const sidebarRef = React.createRef<{ refreshBalances: () => void }>();
@@ -50,6 +51,14 @@ const Sidebar = forwardRef<{ refreshBalances: () => void }, {}>(function Sidebar
   const { wallets } = useWallets();
   const { fundWallet } = useFundWallet(); // Add fund wallet hook
 
+  // AppKit / wagmi account
+  const { address: appkitAddress, isConnected: isAppKitConnected } = useAccount()
+
+  // Wrapper for AppKit web component to satisfy TSX typing
+  const W3MButton = () => {
+    return (React.createElement('w3m-button' as any, {}))
+  }
+
   // Specifically get Privy's embedded wallet
   const connectedWallet = wallets.find(wallet => wallet.walletClientType === 'privy');
 
@@ -69,22 +78,24 @@ const Sidebar = forwardRef<{ refreshBalances: () => void }, {}>(function Sidebar
     }
   }));
 
-  // Derived state for UI
-  const isWalletEffectivelyConnected = ready && authenticated && !!connectedWallet;
-  const displayAddress = isWalletEffectivelyConnected ? connectedWallet.address : null;
+  // Derived state for UI (prefer AppKit when connected)
+  const isWalletEffectivelyConnected = Boolean(isAppKitConnected || (ready && authenticated && !!connectedWallet));
+  const displayAddress: string | null = isAppKitConnected
+    ? (appkitAddress ?? null)
+    : (ready && authenticated && connectedWallet ? connectedWallet.address : null);
 
   // Update context based on Privy state
   useEffect(() => {
     if (ready) {
-      setIsWalletConnected(authenticated && !!connectedWallet);
-      
-      if (authenticated && connectedWallet) {
-        setWalletAddress(connectedWallet.address);
+      // reflect effective connection in context
+      setIsWalletConnected(isWalletEffectivelyConnected);
+      if (displayAddress) {
+        setWalletAddress(displayAddress);
       } else {
         setWalletAddress(null);
       }
     }
-  }, [ready, authenticated, connectedWallet, setIsWalletConnected, setWalletAddress]);
+  }, [ready, isWalletEffectivelyConnected, displayAddress, setIsWalletConnected, setWalletAddress]);
 
   // Handle wallet funding
   const handleFundWallet = async () => {
@@ -171,6 +182,10 @@ const Sidebar = forwardRef<{ refreshBalances: () => void }, {}>(function Sidebar
 
       {/* Bottom Actions */}
       <div className="space-y-2">
+        {/* AppKit Connect Button */}
+        <div className="w-full flex justify-start">
+          <W3MButton />
+        </div>
         {isWalletEffectivelyConnected && (
           <>
            <Button
